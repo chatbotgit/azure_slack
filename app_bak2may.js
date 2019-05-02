@@ -29,6 +29,8 @@ var server = app.listen(3000, function () {
 /**pass incoming webhook to send messege to slack */
 var MY_SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
 var slack = require('slack-notify')(MY_SLACK_WEBHOOK_URL);
+
+
 var util = require('util');
 //var async = require('async');
 var msRestAzure = require('ms-rest-azure');
@@ -65,11 +67,6 @@ var adminPassword = 'Pa$$w0rd92';
 var domainNameLabel = _generateRandomId('testdomainname', randomIds);
 var ipConfigName = _generateRandomId('testcrpip', randomIds);
 var osDiskName = _generateRandomId('testosdisk', randomIds);
-
-/** start connection  from servicenow*/
-const sn = require('servicenow-rest-api');
-const ServiceNow = new sn('dev49606', 'admin', '10Service@321');
-/** end connection  from servicenow*/
 
 
 ///////////////////////////////////////////
@@ -377,19 +374,6 @@ app.post('/azure', function (req, response) {
 					});
                 }
               });
-            break;
-		case "createnewticketservicenow":
-            var sort_desc = (req.body.queryResult.parameters.sort_description).toString();
-            const data = {
-                'short_description': (req.body.queryResult.parameters.sort_description).toString(),
-                'urgency': (req.body.queryResult.parameters.urgency).toString(),
-                'assignment_group': 'Hardware'
-            };
-            ServiceNow.createNewTask(data, 'incident', res => {
-                console.log(JSON.stringify({ "fulfillmentText": "Your ticket " + res.number + " is created successfully with status: " + res.state + " and description: " + res.short_description }));
-                response.send(JSON.stringify({ "fulfillmentText": "Your ticket " + res.number + " is created successfully with status: " + res.state + " and description: " + res.short_description }));
-            });
-
             break;
         }
     });
