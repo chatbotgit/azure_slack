@@ -10,12 +10,22 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
+var mongoose = require('mongoose');
+var leaveModel = require('./employee.model');
+
+
+app.use('/public', express.static(__dirname + "/public"));
+app.get('/', function (req, res) {
+    res.set({
+        'Access-Control-Allow-Origin': '*' 
+    });
+    return res.redirect('public/login.html')
+});
 
 /**set port using env variable for server */
-
  var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function () {
-    console.log("Listening on --- Port 3000");
+	app.listen(port, "0.0.0.0", function () {
+		console.log("Listening on --- Port 3000");
 });
 
 /**set port using env variable  for local*/
@@ -443,7 +453,7 @@ app.post('/azure', function (req, response) {
             }
 			
             var newstatus = toTitleCase(status);
-				
+				console.log("hii",newstatus)
             const updatedata = {
                 'incident_state': newstatus
             };
@@ -460,8 +470,24 @@ app.post('/azure', function (req, response) {
 				} */
             });
             break;
+			/**create leave in lob */
+        case "createleave":
+            var emp = new leaveModel();
+            console.log("data is here", req.body);
+            emp.name = "Amrita";
+            emp.leave_type = req.body.queryResult.parameters.leavetype;
+            emp.start_date = req.body.queryResult.parameters.startdate;
+            emp.end_date = req.body.queryResult.parameters.enddate;
+            emp.desc = req.body.queryResult.parameters.leavedes;
+			emp.cur_date = currentTime;
+			emp.empid = 156539;
+            emp.leave_status = "Pending";
+            emp.save();
+            console.log("Your leave has been successfully.Leave type is " + emp.leave_type + " and starting date: " + emp.start_date);
+            response.send(JSON.stringify({ "fulfillmentText": "Your leave has been created successfully. Leave type is " + emp.leave_type + " and starting date: " + emp.start_date}));
+            break;
         }
-    });
+    });   
 });
 /**Function to create resource group name*/
 function createResourceGroup(resourceGroupName, callback) {
