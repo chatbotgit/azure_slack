@@ -3,20 +3,17 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-
 var express = require('express');
 var app = express();
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 /**set port using env variable for server */
-
- var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function () {
-    console.log("Listening on --- Port 3000");
-});
+var port = process.env.PORT || 3000;
+	app.listen(port, "0.0.0.0", function () {
+		console.log("Listening on --- Port 3000");
+	});
 
 /**set port using env variable  for local*/
  /* 
@@ -26,11 +23,9 @@ var server = app.listen(3000, function () {
   console.log("Example app listening at http://%s:%s", host, port)
 })*/
 
-/**pass incoming webhook to send messege to slack from azure */
-var MY_SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
+/**pass incoming webhook to send messege to slack */
+var MY_SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
 var slack = require('slack-notify')(MY_SLACK_WEBHOOK_URL);
-
-
 var util = require('util');
 //var async = require('async');
 var msRestAzure = require('ms-rest-azure');
@@ -147,7 +142,7 @@ app.post('/azure', function (req, response) {
 							channel: 'azure',
 							text:  "Error in creating virtual network"
 					   }); 
-                    } else {	
+                    } else {
                         console.log("Vnet is created",vnetInfo );
 						//response.send(JSON.stringify({ "fulfillmentText": "Vitual network is created successfully with name " +vnetInfo.name }));
 					slack.send({				  
@@ -380,8 +375,7 @@ app.post('/azure', function (req, response) {
                 }
               });
             break;
-		/**Create new ticket in service now */
-        case "createnewticketservicenow":
+		case "createnewticketservicenow":
             var sort_desc = (req.body.queryResult.parameters.sort_description).toString();
             const data = {
                 'short_description': (req.body.queryResult.parameters.sort_description).toString(),
@@ -511,7 +505,6 @@ function createVirtualMachine(nicId,vmImageVersionNumber,resourceGroupName,vmNam
     console.log('\n VM create parameters: ' + util.inspect(vmParameters, { depth: null }));
     computeClient.virtualMachines.createOrUpdate(resourceGroupName, vmName, vmParameters, callback);
 }
-
 
 /**Function to set env variabel*/
 function _validateEnvironmentVariables() {
