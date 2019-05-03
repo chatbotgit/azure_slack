@@ -432,6 +432,31 @@ app.post('/azure', function (req, response) {
                 response.send(JSON.stringify({ "fulfillmentText": "Ticketnumber: " + res[0].number + " urgeny is " +urgencydata }));
             });
             break;
+			    break;
+        /**Update ticket status in service now */
+        case "updateservicenowticket":
+            var status = req.body.queryResult.parameters.ticket_status;
+            /**change status in first charater in uppercase */
+            function toTitleCase(str) {
+                return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+            }
+            var newstatus = toTitleCase(status);
+            const updatedata = {
+                'incident_state': newstatus
+            };
+            ServiceNow.UpdateTask('incident', req.body.queryResult.parameters.ticket_number, updatedata, res => {
+                response.setHeader("Content-Type", "application/json");
+				response.send(JSON.stringify({ "fulfillmentText": "Your ticket number: " + req.body.queryResult.parameters.ticket_number + " is updated successfully with status " + newstatus }));
+				
+				/*  if (res = "undefined") {
+                    console.log("Unable to process your request")
+                    response.send(JSON.stringify({ "fulfillmentText": "Unable to process your request"}));
+                } else {
+					console.log(JSON.stringify({ "fulfillmentText": "Your ticket number: " + req.body.queryResult.parameters.ticket_number + " is updated successfully with status " + newstatus }));
+					response.send(JSON.stringify({ "fulfillmentText": "Your ticket number: " + req.body.queryResult.parameters.ticket_number + " is updated successfully with status " + newstatus }));
+				} */
+            });
+            break;
         }
     });
 });
