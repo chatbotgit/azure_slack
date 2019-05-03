@@ -443,9 +443,9 @@ app.post('/azure', function (req, response) {
             }
 			
             var newstatus = toTitleCase(status);
-				console.log("hiiiii",req.body.queryResult.parameters.ticket_number)
+				
             const updatedata = {
-                'incident_state': "On Hold"
+                'incident_state': newstatus
             };
             ServiceNow.UpdateTask('incident',ticketnuber,updatedata, res => {
                 response.setHeader("Content-Type", "application/json");
