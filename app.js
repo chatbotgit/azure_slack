@@ -435,11 +435,14 @@ app.post('/azure', function (req, response) {
 			    break;
         /**Update ticket status in service now */
         case "updateservicenowticket":
-            var status = req.body.queryResult.parameters.ticket_status;
+		console.log("byeeeeee")
+            var status = (req.body.queryResult.parameters.ticket_status).toString();
+			console.log("hiiiii",status)
             /**change status in first charater in uppercase */
             function toTitleCase(str) {
                 return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
             }
+			
             var newstatus = toTitleCase(status);
             const updatedata = {
                 'incident_state': newstatus
