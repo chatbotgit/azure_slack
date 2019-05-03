@@ -394,6 +394,44 @@ app.post('/azure', function (req, response) {
             });
 
             break;
+		/**Getting ticket details from service now */
+        case "getServiceNowTkt":
+            response.setHeader('Content-Type', 'application/json');
+            const fields = [
+                'number',
+                'short_description',
+                'assignment_group',
+                'priority',
+                'incident_state'
+            ];
+            const filters = [
+                'number=' + req.body.queryResult.parameters.tktnumber
+            ];
+            ServiceNow.getTableData(fields, filters, 'incident', res => {
+		
+                console.log(JSON.stringify({ "fulfillmentText": "Ticketnumber: " + res[0].number + " status is " + res[0].incident_state + " and description : " + res[0].short_description }));
+                response.send(JSON.stringify({ "fulfillmentText": "Ticketnumber:  " + res[0].number + " status is " + res[0].incident_state + " and description : " + res[0].short_description }));
+            });
+            break;
+			/**Getting ticket urgency from service now */
+			 case "geturgencyofticket":
+				response.setHeader('Content-Type', 'application/json');
+				const fieldsarray = [
+					'number',
+					'urgency'             
+				];
+				const filtersarray = [
+					'number=' + req.body.queryResult.parameters.ticketnumber
+				];
+            ServiceNow.getTableData(fieldsarray, filtersarray, 'incident', res => {
+                console.log("data is here", res);
+                var result = res[0].urgency;
+                var data = result.split("-", -1);
+                var urgencydata = data[1];
+                console.log(JSON.stringify({ "fulfillmentText": "Ticketnumber: " + res[0].number + " urgeny is " +urgencydata }));
+                response.send(JSON.stringify({ "fulfillmentText": "Ticketnumber: " + res[0].number + " urgeny is " +urgencydata }));
+            });
+            break;
         }
     });
 });
