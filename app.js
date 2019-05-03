@@ -436,19 +436,20 @@ app.post('/azure', function (req, response) {
         /**Update ticket status in service now */
         case "updateservicenowticket":
             var status = (req.body.queryResult.parameters.ticket_status).toString();
-			console.log("hiiiii",status)
+		     var ticketnuber = (req.body.queryResult.parameters.ticket_number).toString();			  
             /**change status in first charater in uppercase */
             function toTitleCase(str) {
                 return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
             }
 			
             var newstatus = toTitleCase(status);
+				console.log("hiiiii",req.body.queryResult.parameters.ticket_number)
             const updatedata = {
-                'incident_state': newstatus
+                'incident_state': "On Hold"
             };
-            ServiceNow.UpdateTask('incident', req.body.queryResult.parameters.ticket_number, updatedata, res => {
+            ServiceNow.UpdateTask('incident',ticketnuber,updatedata, res => {
                 response.setHeader("Content-Type", "application/json");
-				response.send(JSON.stringify({ "fulfillmentText": "Your ticket number: " + req.body.queryResult.parameters.ticket_number + " is updated successfully with status " + newstatus }));
+				response.send(JSON.stringify({ "fulfillmentText": "Your ticket number: " + ticketnuber + " is updated successfully with status " + newstatus }));
 				
 				/*  if (res = "undefined") {
                     console.log("Unable to process your request")
