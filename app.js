@@ -506,10 +506,10 @@ app.post('/azure', function (req, response) {
             var emp = new leaveModel();
             console.log("data is here", req.body);
             emp.name = "Amrita";
-            emp.leave_type = req.body.queryResult.parameters.leavetype;
-            emp.start_date = req.body.queryResult.parameters.startdate;
-            emp.end_date = req.body.queryResult.parameters.enddate;
-            emp.desc = req.body.queryResult.parameters.leavedes;
+            emp.leave_type = (req.body.queryResult.parameters.leavetype).toString();
+            emp.start_date = (req.body.queryResult.parameters.startdate).toString();
+            emp.end_date = (req.body.queryResult.parameters.enddate).toString();
+            emp.desc = (req.body.queryResult.parameters.leavedes).toString();
 			emp.cur_date = currentTime;
 			emp.empid = 156539;
             emp.leave_status = "Pending";
