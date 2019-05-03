@@ -435,7 +435,6 @@ app.post('/azure', function (req, response) {
 			    break;
         /**Update ticket status in service now */
         case "updateservicenowticket":
-		console.log("byeeeeee")
             var status = (req.body.queryResult.parameters.ticket_status).toString();
 			console.log("hiiiii",status)
             /**change status in first charater in uppercase */
