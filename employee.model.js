@@ -1,8 +1,6 @@
 
 var mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
-
 const employeeSchema = new Schema({
     name: String,
     leave_type : String,
@@ -13,5 +11,4 @@ const employeeSchema = new Schema({
     cur_date : String,
     leave_status : String
 })
-
 module.exports = mongoose.model('emp_leave',employeeSchema)
