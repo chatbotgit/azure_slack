@@ -651,7 +651,7 @@ function createVirtualMachine(nicId,vmImageVersionNumber,resourceGroupName,vmNam
         location: location,
         osProfile: {
             computerName: vmName,
-            adminUsername: admadminPasswordinUsername,
+            adminUsername: adminUsername,
             adminPassword: adminPassword
         },
         hardwareProfile: {
