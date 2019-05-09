@@ -53,7 +53,8 @@ console.log("subc",subscriptionId);
 var resourceClient, computeClient, storageClient, networkClient;
 //Sample Config
 var randomIds = {};
-
+var location = 'westus';
+var accType = 'Standard_LRS';
 
 // Ubuntu config
 var publisher = 'Canonical';

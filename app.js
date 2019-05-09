@@ -386,7 +386,7 @@ app.post('/azure', function (req, response) {
                   console.log(util.format('\n######End of Task3: Poweroff the VM is successful.\n%s',util.inspect(result, { depth: null })));
 				slack.send({				  
 					channel: 'azure',
-					text:  'Power off virtual machine name '+vmName
+					text:  'virtual machine '+vmName +' is in shut down state'
 				});
                 }
               });
@@ -407,7 +407,7 @@ app.post('/azure', function (req, response) {
                 console.log(util.format('\n######End of Task4: Start the VM is successful.\n%s',util.inspect(result, { depth: null })));
 					slack.send({				  
 						channel: 'azure',
-						text:  'Start virtual machine name '+vmName
+						text:  vmName+ ' is started',
 					});
                 }
               });
